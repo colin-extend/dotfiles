@@ -1,8 +1,9 @@
 source ~/.profile
 source ~/.bash_aliases
+source ~/.bashrc
 
 #.base_terminal - Shortcuts and Bash Utilities - https://github.com/ashoda/.base_terminal.git
-source ~/.base_terminal/base.sh
+# source ~/.base_terminal/base.sh
 export PATH="$PATH:~/bin"
 # ############################################
 
@@ -111,7 +112,7 @@ export PATH="/opt/local/bin:/opt/local/sbin:$PATH"
 # MacPorts Installer addition on 2015-11-20_at_16:16:09: adding an appropriate PATH variable for use with MacPorts.
 export PATH="/opt/local/bin:/opt/local/sbin:$PATH"
 # Finished adapting your PATH environment variable for use with MacPorts.
-export PATH="/Users/ccahill/.rvm/gems/ruby-2.2.0/bin:$PATH"
+# export PATH="/Users/ccahill/.rvm/gems/ruby-2.2.0/bin:$PATH"
 export GOPATH=$HOME/work/go
 # Setting PATH for Python 3.5
 # The original version is saved in .bash_profile.pysave

@@ -2,7 +2,7 @@ source ~/.bash_aliases
 source ~/.git-prompt.sh
 source ~/.git-completion.bash
 
-eval "$(direnv hook bash)"
+# eval "$(direnv hook bash)"
 
 GIT_PS1_SHOWDIRTYSTATE=true
 GIT_PS1_SHOWUNTRACKEDFILES=true
