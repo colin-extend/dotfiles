@@ -23,11 +23,16 @@ alias lt='l -t | less'
 # Testing
 
 alias cas='casperjs test --ignore-ssl-errors=yes'
-alias rs='rspec --format documentation --color'
+alias rs='bundle exec rspec --format documentation --color'
+alias ms='DOMAIN=master bundle exec rspec --format documentation --color'
+alias bs='RAILS_ENV=test bundle exec spec --color --format nested'
 
 # Web apps
 
-# Marqeta Apps
+alias brake='bundle exec rake'
+alias thin='bundle exec thin start'
+alias rc='bundle exec script/console'
+
 
 ## Vagrant
 
