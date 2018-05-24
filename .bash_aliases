@@ -32,6 +32,7 @@ alias bs='RAILS_ENV=test bundle exec spec --color --format nested'
 alias brake='bundle exec rake'
 alias thin='bundle exec thin start'
 alias rc='bundle exec script/console'
+alias lerna='npx lerna'
 
 
 ## Vagrant
@@ -45,3 +46,13 @@ alias sshv='vagrant ssh'
 ## Git
 
 alias commits='git log --graph --all --oneline --decorate'
+alias fetch='git fetch --all'
+alias gco='git checkout'
+alias gcob='git checkout -b'
+alias gcom='git checkout master'
+alias gbu='git branch -u'
+alias gs='git status'
+alias gcl='git clone'
+alias gall='git add -A'
+alias gdel='git branch -D'
+alias gcp='git cherry-pick'
