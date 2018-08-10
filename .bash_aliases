@@ -19,6 +19,7 @@ alias vi='vim'
 alias json='python -mjson.tool'
 alias csv="sed -e 's/,,/, ,/g' | column -s, -t | less -#5 -N -S"  # << cat and pipe csv to this for formatted tables
 alias lt='l -t | less'
+alias md=''
 
 # Testing
 
@@ -46,7 +47,7 @@ alias sshv='vagrant ssh'
 ## Git
 
 alias commits='git log --graph --all --oneline --decorate'
-alias fetch='git fetch --all'
+alias fetch='git fetch --all -p' # prunes dead remote branches
 alias gco='git checkout'
 alias gcob='git checkout -b'
 alias gcom='git checkout master'
@@ -56,3 +57,4 @@ alias gcl='git clone'
 alias gall='git add -A'
 alias gdel='git branch -D'
 alias gcp='git cherry-pick'
+alias grh='git reset --hard'
