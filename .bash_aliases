@@ -47,6 +47,7 @@ alias sshv='vagrant ssh'
 ## Git
 
 alias commits='git log --graph --all --oneline --decorate'
+alias branches='git for-each-ref --sort=-committerdate refs/heads/'
 alias fetch='git fetch --all -p' # prunes dead remote branches
 alias gco='git checkout'
 alias gcob='git checkout -b'
