@@ -5,7 +5,7 @@ alias l='ls -alh'
 alias ll='ls -laGh'
 alias diff='diff -u'
 alias back="cd -"
-alias cursor="stty echo"
+alias cursor="stty echo; tput cvvis;"
 alias dnsflush='sudo dscacheutil -flushcache'
 alias latest="ls -tr | tail -n 1"
 
