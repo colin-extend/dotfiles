@@ -3,6 +3,8 @@ source ~/.bash_aliases
 source ~/.untracked_vars
 source ~/.bashrc
 
+ssh-agent
+
 platform='unknown'
 unamestr=`uname`
 if [[ "$unamestr" == 'Linux' ]]; then
