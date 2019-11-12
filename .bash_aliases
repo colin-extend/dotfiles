@@ -60,3 +60,6 @@ alias gdel='git branch -D'
 alias gcp='git cherry-pick'
 alias grh='git reset --hard'
 alias git-recent='git for-each-ref --sort=-committerdate refs/heads/'
+
+## Special
+alias spoof='spoof-mac randomize --wifi'
