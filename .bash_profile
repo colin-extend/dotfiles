@@ -136,3 +136,5 @@ export JAVA_HOME=$(/usr/libexec/java_home)
 fi
 
 [[ -s "$HOME/.avn/bin/avn.sh" ]] && source "$HOME/.avn/bin/avn.sh" # load avn
+
+export JIRA_CONFIG="/Users/colincahill/dev/.jira-cli/config.json"
