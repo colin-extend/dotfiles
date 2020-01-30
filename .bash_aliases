@@ -61,5 +61,8 @@ alias gcp='git cherry-pick'
 alias grh='git reset --hard'
 alias git-recent='git for-each-ref --sort=-committerdate refs/heads/'
 
+## Javascript
+alias node="env NODE_NO_READLINE=1 rlwrap node"
+
 ## Special
 alias spoof='spoof-mac randomize --wifi'

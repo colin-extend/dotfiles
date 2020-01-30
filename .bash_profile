@@ -124,12 +124,10 @@ export PATH="/opt/local/bin:/opt/local/sbin:$PATH"
 
 
 export PGUSER="ccahill"
-export NVM_DIR="$HOME/.nvm"
 
-if [[ "$platform" == 'Dawrin' ]]; then
+if [[ "$platform" == 'Darwin' ]]; then
 
 export PATH="$PATH:/usr/local/apache-maven-3.3.9/bin"
-export PATH="$PATH:/usr/local/browsermob-proxy-2.1.3/bin"
 export JAVA_HOME=$(/usr/libexec/java_home)
 . "/usr/local/opt/nvm/nvm.sh"
 
