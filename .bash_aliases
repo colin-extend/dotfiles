@@ -27,6 +27,7 @@ alias cas='casperjs test --ignore-ssl-errors=yes'
 alias rs='bundle exec rspec --format documentation --color'
 alias ms='DOMAIN=master bundle exec rspec --format documentation --color'
 alias bs='RAILS_ENV=test bundle exec spec --color --format nested'
+alias nw='nightwatch'
 
 # Web apps
 
