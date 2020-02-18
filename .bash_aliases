@@ -64,6 +64,8 @@ alias git-recent='git for-each-ref --sort=-committerdate refs/heads/'
 
 ## Javascript
 alias node="env NODE_NO_READLINE=1 rlwrap node"
+alias ni='node inspect'
+alias nd='node debug'
 
 ## Special
 alias spoof='spoof-mac randomize --wifi'

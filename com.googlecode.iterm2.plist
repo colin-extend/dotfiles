@@ -16,7 +16,17 @@
 	<real>603070936.89954495</real>
 	<key>DeleteProfile_selection</key>
 	<integer>0</integer>
+	<key>DimBackgroundWindows</key>
+	<false/>
+	<key>DisableFullscreenTransparency</key>
+	<false/>
+	<key>EnableDivisionView</key>
+	<true/>
+	<key>EnableProxyIcon</key>
+	<false/>
 	<key>HapticFeedbackForEsc</key>
+	<false/>
+	<key>HideScrollbar</key>
 	<false/>
 	<key>HotkeyMigratedFromSingleToMulti</key>
 	<true/>
@@ -76,7 +86,7 @@
 	<key>NSWindow Frame NSNavPanelAutosaveName</key>
 	<string>539 368 841 470 0 0 1920 1057 </string>
 	<key>NSWindow Frame iTerm Window 0</key>
-	<string>0 0 1792 1097 0 0 1792 1097 </string>
+	<string>0 0 1920 1057 0 0 1920 1057 </string>
 	<key>New Bookmarks</key>
 	<array>
 		<dict>
@@ -1417,7 +1427,7 @@
 		<key>screenFrame</key>
 		<string>{{0, 0}, {1920, 1080}}</string>
 		<key>topLeft</key>
-		<string>{255, 823}</string>
+		<string>{220, 782}</string>
 	</dict>
 	<key>NoSyncInstallationId</key>
 	<string>265F14FF-B552-4DD6-98F4-CF2CFDBBF24E</string>
@@ -2153,6 +2163,8 @@
 	<key>SUSendProfileInfo</key>
 	<false/>
 	<key>SoundForEsc</key>
+	<false/>
+	<key>UseBorder</key>
 	<false/>
 	<key>VisualIndicatorForEsc</key>
 	<false/>

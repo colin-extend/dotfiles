@@ -124,6 +124,7 @@ export PATH="/opt/local/bin:/opt/local/sbin:$PATH"
 
 
 export PGUSER="ccahill"
+eval $(thefuck --alias)
 
 if [[ "$platform" == 'Darwin' ]]; then
 
