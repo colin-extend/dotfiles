@@ -99,14 +99,6 @@ export PATH="$PATH:~/bin"
 export PATH="$PATH:/usr/local/sbin"
 # Setting PATH for Python 2.7
 # The orginal version is saved in .bash_profile.pysave
-PATH="/Library/Frameworks/Python.framework/Versions/2.7/bin:${PATH}"
-export PATH
-
-export PATH="$PATH:/Users/colincahill/Library/Python/2.7/bin"
-
-##
-export PATH="/opt/local/bin:/opt/local/sbin:$PATH"
-# Finished adapting your PATH environment variable for use with MacPorts.
 
 ##
 export PATH="/opt/local/bin:/opt/local/sbin:$PATH"
@@ -114,8 +106,10 @@ export PATH="/opt/local/bin:/opt/local/sbin:$PATH"
 export GOPATH=$HOME/work/go
 # Setting PATH for Python 3.5
 # The original version is saved in .bash_profile.pysave
-PATH="/Library/Frameworks/Python.framework/Versions/3.5/bin:${PATH}"
-export PATH
+
+export PYTHON_FULL_VERSION=$(python --version | awk '{print $2}')
+export PYTHON_MINOR_VERSION=$(echo $PYTHON_FULL_VERSION | awk -F \. {'print $1"."$2'})
+export PATH="$HOME/Library/Python/$PYTHON_MINOR_VERSION/bin:$PATH"
 
 # MacPorts Installer addition on 2016-12-25_at_02:37:41: adding an appropriate PATH variable for use with MacPorts.
 export PATH="/opt/local/bin:/opt/local/sbin:$PATH"
@@ -137,3 +131,4 @@ fi
 [[ -s "$HOME/.avn/bin/avn.sh" ]] && source "$HOME/.avn/bin/avn.sh" # load avn
 
 export JIRA_CONFIG="/Users/colincahill/dev/.jira-cli/config.json"
+# load shopify-app-cli, but only if present and the shell is interactive

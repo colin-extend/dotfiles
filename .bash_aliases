@@ -1,5 +1,4 @@
 # Bash-specific
-
 ## Navigation
 alias l='ls -alh'
 alias ll='ls -laGh'
@@ -9,8 +8,7 @@ alias cursor="stty echo; tput cvvis;"
 alias dnsflush='sudo dscacheutil -flushcache'
 alias latest="ls -tr | tail -n 1"
 
-## Bash functions
-
+## System functions
 alias cwd='pwd | pbcopy'
 
 ## Text or String Commands
@@ -20,6 +18,7 @@ alias json='python -mjson.tool'
 alias csv="sed -e 's/,,/, ,/g' | column -s, -t | less -#5 -N -S"  # << cat and pipe csv to this for formatted tables
 alias lt='l -t | less'
 alias md=''
+
 
 # Testing
 
@@ -37,15 +36,18 @@ alias rc='bundle exec script/console'
 alias lerna='npx lerna'
 
 
-## Vagrant
+# Vagrant
 
 alias vu='vagrant up'
 alias vh='vagrant halt'
 alias vgs='vagrant global-status'
 alias sshv='vagrant ssh'
 
+# Python
+alias python='python3'
 
-## Git
+
+# Git
 
 alias commits='git log --graph --all --oneline --decorate'
 alias branches='git for-each-ref --sort=-committerdate refs/heads/'
@@ -62,7 +64,7 @@ alias gcp='git cherry-pick'
 alias grh='git reset --hard'
 alias git-recent='git for-each-ref --sort=-committerdate refs/heads/'
 
-## Javascript
+# Javascript
 alias node="env NODE_NO_READLINE=1 rlwrap node"
 alias ni='node inspect'
 alias nd='node debug'
