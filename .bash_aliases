@@ -18,6 +18,7 @@ alias json='python -mjson.tool'
 alias csv="sed -e 's/,,/, ,/g' | column -s, -t | less -#5 -N -S"  # << cat and pipe csv to this for formatted tables
 alias lt='l -t | less'
 alias md=''
+alias jira_tix="grep -Eo '([A-Z]{3,}-)([0-9]+)' | uniq | awk '{print "https://helloextend.atlassian.net/browse/" $0}'" # << pipe to this for jira tix
 
 
 # Testing
@@ -45,10 +46,10 @@ alias sshv='vagrant ssh'
 
 # Python
 alias python='python3'
+alias pip='pip3'
 
 
 # Git
-
 alias commits='git log --graph --all --oneline --decorate'
 alias branches='git for-each-ref --sort=-committerdate refs/heads/'
 alias fetch='git fetch --all -p' # prunes dead remote branches
@@ -63,6 +64,8 @@ alias gdel='git branch -D'
 alias gcp='git cherry-pick'
 alias grh='git reset --hard'
 alias git-recent='git for-each-ref --sort=-committerdate refs/heads/'
+alias glo='git log --oneline'
+alias commit="git show | grep 'commit' | awk '{print $2}'"
 
 # Javascript
 alias node="env NODE_NO_READLINE=1 rlwrap node"
@@ -70,4 +73,9 @@ alias ni='node inspect'
 alias nd='node debug'
 
 ## Special
-alias spoof='spoof-mac randomize --wifi'
+alias spoof='spoof-mac randomize --wifi'  # https://github.com/feross/SpoofMAC
+
+## Functions
+function git-jira-ids() {
+  git log $1 | grep -Eo '([A-Z]{3,}-)([0-9]+)' | uniq
+}

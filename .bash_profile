@@ -132,3 +132,6 @@ fi
 
 export JIRA_CONFIG="/Users/colincahill/dev/.jira-cli/config.json"
 # load shopify-app-cli, but only if present and the shell is interactive
+# load shopify-app-cli, but only if present and the shell is interactive
+if [[ -f "/Users/colin/.shopify-app-cli/shopify.sh" ]]; then source "/Users/colin/.shopify-app-cli/shopify.sh"; fi
+[[ -s "$HOME/.extend/environment.sh" ]] && source "$HOME/.extend/environment.sh" # source extend environment

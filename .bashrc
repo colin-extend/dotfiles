@@ -4,6 +4,7 @@ source ~/.git-completion.bash
 
 # eval "$(direnv hook bash)"
 
+DOTIFLES_DIR=$(pwd)
 GIT_PS1_SHOWDIRTYSTATE=true
 GIT_PS1_SHOWUNTRACKEDFILES=true
 GIT_PS1_SHOWCOLORHINTS=true
@@ -18,6 +19,8 @@ export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
 export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+eval "$(hub alias -s)"
 
 find-up () {
     path=$(pwd)
@@ -71,3 +74,7 @@ cdnvm(){
 }
 alias cd='cdnvm'
 cd $(pwd)
+# load shopify-app-cli, but only if present and the shell is interactive
+if [[ -f "/Users/colin/.shopify-app-cli/shopify.sh"  ]] && [[ hB == *i* ]]; then
+  source "/Users/colin/.shopify-app-cli/shopify.sh"
+fi
