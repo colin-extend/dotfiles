@@ -114,6 +114,7 @@ export PATH="$HOME/Library/Python/$PYTHON_MINOR_VERSION/bin:$PATH"
 # MacPorts Installer addition on 2016-12-25_at_02:37:41: adding an appropriate PATH variable for use with MacPorts.
 export PATH="/opt/local/bin:/opt/local/sbin:$PATH"
 # Finished adapting your PATH environment variable for use with MacPorts.
+export NODE_PATH=$NODE_PATH:`npm root -g`
 
 
 
@@ -130,7 +131,7 @@ fi
 
 [[ -s "$HOME/.avn/bin/avn.sh" ]] && source "$HOME/.avn/bin/avn.sh" # load avn
 
-export JIRA_CONFIG="/Users/colincahill/dev/.jira-cli/config.json"
+export JIRA_CONFIG="/Users/colin/.jira-cli/config.json"
 # load shopify-app-cli, but only if present and the shell is interactive
 # load shopify-app-cli, but only if present and the shell is interactive
 if [[ -f "/Users/colin/.shopify-app-cli/shopify.sh" ]]; then source "/Users/colin/.shopify-app-cli/shopify.sh"; fi
