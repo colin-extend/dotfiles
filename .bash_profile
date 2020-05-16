@@ -6,11 +6,11 @@ source ~/.bashrc
 ssh-agent
 
 platform='unknown'
-unamestr=`uname`
-if [[ "$unamestr" == 'Linux' ]]; then
-	   platform='linux'
-   elif [[ "$unamestr" == 'Darwin' ]]; then
-	      platform='mac'
+unamestr=$(uname)
+if [[ $unamestr == 'Linux' ]]; then
+    platform='linux'
+elif [[ $unamestr == 'Darwin' ]]; then
+    platform='mac'
 fi
 
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
@@ -114,25 +114,19 @@ export PATH="$HOME/Library/Python/$PYTHON_MINOR_VERSION/bin:$PATH"
 # MacPorts Installer addition on 2016-12-25_at_02:37:41: adding an appropriate PATH variable for use with MacPorts.
 export PATH="/opt/local/bin:/opt/local/sbin:$PATH"
 # Finished adapting your PATH environment variable for use with MacPorts.
-export NODE_PATH=$NODE_PATH:`npm root -g`
-
-
+export NODE_PATH=$NODE_PATH:$(npm root -g)
 
 export PGUSER="ccahill"
 eval $(thefuck --alias)
 
-if [[ "$platform" == 'Darwin' ]]; then
+if [[ $platform == 'Darwin' ]]; then
 
-export PATH="$PATH:/usr/local/apache-maven-3.3.9/bin"
-export JAVA_HOME=$(/usr/libexec/java_home)
-. "/usr/local/opt/nvm/nvm.sh"
+    export PATH="$PATH:/usr/local/apache-maven-3.3.9/bin"
+    export JAVA_HOME=$(/usr/libexec/java_home)
+    . "/usr/local/opt/nvm/nvm.sh"
 
 fi
 
 [[ -s "$HOME/.avn/bin/avn.sh" ]] && source "$HOME/.avn/bin/avn.sh" # load avn
 
-export JIRA_CONFIG="/Users/colin/.jira-cli/config.json"
-# load shopify-app-cli, but only if present and the shell is interactive
-# load shopify-app-cli, but only if present and the shell is interactive
-if [[ -f "/Users/colin/.shopify-app-cli/shopify.sh" ]]; then source "/Users/colin/.shopify-app-cli/shopify.sh"; fi
-[[ -s "$HOME/.extend/environment.sh" ]] && source "$HOME/.extend/environment.sh" # source extend environment
+export JIRA_CONFIG="$HOME/.jira-cli/config.json"
