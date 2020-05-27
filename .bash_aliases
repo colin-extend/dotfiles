@@ -109,7 +109,8 @@ alias gcp='git cherry-pick'
 alias grh='git reset --hard'
 alias git-recent='git for-each-ref --sort=-committerdate refs/heads/'
 alias glo='git log --oneline'
-alias commit="git show | grep 'commit' | head -1 | get_column_two"
+alias commit="git rev-parse HEAD"
+alias gco-conflicts="git checkout $(git status | grep 'both' | awk '{print $NF}')"
 
 # Javascript
 alias node="env NODE_NO_READLINE=1 rlwrap node"

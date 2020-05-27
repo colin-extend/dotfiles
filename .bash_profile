@@ -114,7 +114,9 @@ export PATH="$HOME/Library/Python/$PYTHON_MINOR_VERSION/bin:$PATH"
 # MacPorts Installer addition on 2016-12-25_at_02:37:41: adding an appropriate PATH variable for use with MacPorts.
 export PATH="/opt/local/bin:/opt/local/sbin:$PATH"
 # Finished adapting your PATH environment variable for use with MacPorts.
+
 export NODE_PATH=$NODE_PATH:$(npm root -g)
+export PATH="$PATH:/Users/colin/.nvm/versions/node/"
 
 export PGUSER="ccahill"
 eval $(thefuck --alias)
@@ -130,3 +132,6 @@ fi
 [[ -s "$HOME/.avn/bin/avn.sh" ]] && source "$HOME/.avn/bin/avn.sh" # load avn
 
 export JIRA_CONFIG="$HOME/.jira-cli/config.json"
+[[ -s "$HOME/.extend/environment.sh" ]] && source "$HOME/.extend/environment.sh" # source extend environment
+
+export HUSKY_SKIP_HOOKS=1
