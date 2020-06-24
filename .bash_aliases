@@ -9,6 +9,7 @@ alias dnsflush='sudo dscacheutil -flushcache'
 alias latest="ls -tr | tail -n 1"
 
 ## System
+alias c='pbcopy && echo value copied to clipboard.'
 alias cwd='pwd | pbcopy'
 
 ## Functions
@@ -26,7 +27,7 @@ function tix() {
 function get_column_two() { awk '{print $2}'; }
 
 # pushes commit to env or uses defaults
-function push() {
+function pushAWS() {
     DEFAULT_ENV='acceptance'
     DEFAULT_REF='refs/heads/master'
 
@@ -47,11 +48,17 @@ function push() {
         DEPLOY_REF=$2
     fi
 
+    echo "Running yarn install..."
+    yarn install
     echo "Deploying to ${DEPLOY_ENV} with ${DEPLOY_REF}:"
     echo "Acquiring creds..."
     cred-helper assume -e "${DEPLOY_ENV}"
     echo "Running deploy..."
     yarn run deploy --environment "${DEPLOY_ENV}" -v "${DEPLOY_REF}" --profile "${DEPLOY_ENV}" --skip-git-check
+
+    if [ $? -ne 0 ]; then
+        echo "Error"
+    fi
 }
 
 function open_tix() {
@@ -65,7 +72,31 @@ alias json='python -mjson.tool'
 alias csv="sed -e 's/,,/, ,/g' | column -s, -t | less -#5 -N -S" # << cat and pipe csv to this for formatted tables
 alias lt='l -t | less'
 alias md=''
-alias jids="grep -Eoi '([A-Z]{3,}-)([0-9]+)' | uniq" # << pipe to this for jira tix
+
+function jids() {
+    # << pipe to this for jira tix.  grep case insensitive jira tix, then use awk to remove dupes
+    grep -Eoi '([A-Z]{3,}-)([0-9]+)' | awk '!x[$0]++'
+}
+
+function trunc() {
+    # truncates last number of lines passed to it (e.g.  glo release/v1.62.0..HEAD | trunc 9)
+    tail -r | tail -n "+$1" | tail -r
+}
+
+function trim() {
+    # removes last line of a file
+    # follow this with a filename (e.g. trim log.txt)
+    sed -i '' -e '$ d'
+}
+
+function gread() {
+    G=$2
+    S=$3
+    if [ -z $G ]; then G=""; fi
+    if [ -z $S ]; then S="Moira"; fi
+    # Live tail and read specific lines, or leave blank for all lines
+    tail -f -n 0 $1 | grep -i --line-buffered "$G" | while read line; do echo $line | say -v $S; done
+}
 
 # Testing
 
@@ -97,6 +128,8 @@ alias pip='pip3'
 alias commits='git log --graph --all --oneline --decorate'
 alias branches='git for-each-ref --sort=-committerdate refs/heads/'
 alias fetch='git fetch --all -p' # prunes dead remote branches
+alias commit="git rev-parse g"
+alias gb='git rev-parse --abbrev-ref HEAD'
 alias gco='git checkout'
 alias gcob='git checkout -b'
 alias gcom='git checkout master'
@@ -106,16 +139,34 @@ alias gcl='git clone'
 alias gall='git add -A'
 alias gdel='git branch -D'
 alias gcp='git cherry-pick'
+alias gcpc='git cherry-pick --continue'
+alias gref='git rev-parse --symbolic-full-name HEAD'
+alias gmc='git merge --continue'
+alias gpoh='git push origin HEAD'
 alias grh='git reset --hard'
+alias grbc='git rebase --continue'
+alias grvc='git revert --continue'
 alias git-recent='git for-each-ref --sort=-committerdate refs/heads/'
 alias glo='git log --oneline'
 alias commit="git rev-parse HEAD"
-alias gco-conflicts="git checkout $(git status | grep 'both' | awk '{print $NF}')"
+alias glob='git log --oneline $(git branch | tail -1)..HEAD'
+
+function gmnr() {
+    git merge -Srecursive -Xno-renames $1
+}
+
+function gco-conflicts() {
+    git checkout $(git status | grep 'both' | awk '{print $NF}') $1
+}
 
 # Javascript
 alias node="env NODE_NO_READLINE=1 rlwrap node"
 alias ni='node inspect'
 alias nd='node debug'
+alias yyt='yarn && yarn typecheck'
+
+# App-specific
+alias ssubl='for f in /Users/colin/Library/Application\ Support/Sublime\ Text\ 3/Local/*session; do mv "$f" "$(echo "$f".previous)"; done && subl'
 
 ## Special
 alias spoof='spoof-mac randomize --wifi' # https://github.com/feross/SpoofMAC

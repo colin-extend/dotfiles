@@ -78,3 +78,5 @@ cd $(pwd)
 if [[ -f "$HOME/.shopify-app-cli/shopify.sh" ]] && [[ hB == *i* ]]; then
     source "$HOME/.shopify-app-cli/shopify.sh"
 fi
+
+export AWS_CREDENTIALS=~/.aws/credentials
