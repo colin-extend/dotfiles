@@ -135,3 +135,4 @@ export JIRA_CONFIG="$HOME/.jira-cli/config.json"
 [[ -s "$HOME/.extend/environment.sh" ]] && source "$HOME/.extend/environment.sh" # source extend environment
 
 export HUSKY_SKIP_HOOKS=1
+export CIRCLE_API_USER_TOKEN=$(cat ~/dev/secrets/circle_token)
