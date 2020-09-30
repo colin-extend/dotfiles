@@ -73,6 +73,15 @@ function open_tix() {
     while read -r line; do jira open "$line"; done
 }
 
+function jira_status() {
+    while read -r line; do
+        status=$(jira show -o status $line)
+        status_count=$(echo "${status}" | wc -m)
+        filtered_status=$(if [[ $status_count < 50 ]]; then echo "$status"; else echo "Error: msg length ${status_count}"; fi)
+        echo "$line: $filtered_status"
+    done
+}
+
 function jira_prefix() {
     cut -d '-' -f 1
 }
@@ -100,6 +109,14 @@ function add_to_release() {
 }
 
 ## Text or String Commands
+function commit() {
+    grep -Eoi '\b[0-9a-f]{5,40}\b' | head -1
+}
+
+function urlencode() {
+    printf %s "$1" | jq -s -R -r @uri
+}
+
 alias spy='grep -B 3 -A 3 -n -C 1 -r -h --null'
 alias vi='vim'
 alias json='python -mjson.tool'
@@ -143,8 +160,10 @@ function gread() {
 }
 
 # Local
+alias jirs='jira_status'
 alias a2r='add_to_release'
 alias cr='create_releases'
+alias ec="yarn --silent --cwd $EXTEND_CLI run extend-cli"
 
 # Testing
 
@@ -154,6 +173,7 @@ alias ms='DOMAIN=master bundle exec rspec --format documentation --color'
 alias bs='RAILS_ENV=test bundle exec spec --color --format nested'
 alias nw='nightwatch'
 alias jest='npx jest'
+alias wdio='npx wdio wdio.conf.js'
 
 # Web apps
 
@@ -177,7 +197,6 @@ alias pip='pip3'
 alias commits='git log --graph --all --oneline --decorate'
 alias branches='git for-each-ref --sort=-committerdate refs/heads/'
 alias fetch='git fetch --all -p' # prunes dead remote branches
-alias commit="git rev-parse g"
 alias gb='git rev-parse --abbrev-ref HEAD'
 alias gc='git commit'
 alias gco='git checkout'
@@ -190,15 +209,16 @@ alias gall='git add -A'
 alias gdel='git branch -D'
 alias gcp='git cherry-pick'
 alias gcpc='git cherry-pick --continue'
+alias gd="git diff -- ':!package-lock.json' ':!yarn.lock'"
 alias gref='git rev-parse --symbolic-full-name HEAD'
 alias gmc='git merge --continue'
 alias gpoh='git push origin HEAD'
 alias grh='git reset --hard'
 alias grbc='git rebase --continue'
 alias grvc='git revert --continue'
+alias grp='git rev-parse'
 alias git-recent='git for-each-ref --sort=-committerdate refs/heads/'
 alias glo='git log --oneline'
-alias commit="git rev-parse HEAD"
 alias glob='git log --oneline $(git branch | tail -1)..HEAD'
 alias gun='git reset --hard HEAD~1' # git undo
 
@@ -218,10 +238,18 @@ function grm-del() {
 alias node="env NODE_NO_READLINE=1 rlwrap node"
 alias ni='node inspect'
 alias nd='node debug'
-alias yyt='yarn && yarn typecheck'
+alias yyt='yarn && yarn typecheck && yarn lint --quiet'
 
 # App-specific
+alias mi='micro'
 alias ssubl='for f in /Users/colin/Library/Application\ Support/Sublime\ Text\ 3/Local/*session; do mv "$f" "$(echo "$f".previous)"; done && subl'
 
 ## Special
 alias spoof='spoof-mac randomize --wifi' # https://github.com/feross/SpoofMAC
+function weather() {
+    if [ -z "$1" ]; then
+        curl "wttr.in"
+    else
+        curl "wttr.in/$(urlencode "$1")?format=4"
+    fi
+}

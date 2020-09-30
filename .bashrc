@@ -80,3 +80,5 @@ if [[ -f "$HOME/.shopify-app-cli/shopify.sh" ]] && [[ hB == *i* ]]; then
 fi
 
 export AWS_CREDENTIALS=~/.aws/credentials
+
+source /Users/colin/.config/broot/launcher/bash/br

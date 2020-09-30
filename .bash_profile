@@ -136,3 +136,6 @@ export JIRA_CONFIG="$HOME/.jira-cli/config.json"
 
 export HUSKY_SKIP_HOOKS=1
 export CIRCLE_API_USER_TOKEN=$(cat ~/dev/secrets/circle_token)
+export EXTEND_CLI="~/.extend-cli"
+
+source /Users/colin/.config/broot/launcher/bash/br
