@@ -1,3 +1,4 @@
+echo "loading aliases"
 # Bash-specific
 ## Navigation
 alias l='ls -alh'
@@ -11,8 +12,16 @@ alias latest="ls -tr | tail -n 1"
 ## System
 alias c='pbcopy && echo value copied to clipboard.'
 alias cwd='pwd | pbcopy'
+function vsort() {
+    sort -bt. -k1,1 -k2,2n -k3,3n -k4,4n -k5,5n
+}
 
 ## Functions
+# See which tickets aren't done yet
+function nr() {
+    grep -iv 'Done'
+}
+
 # Append extend JIRA URL
 function append_jira_url() {
     awk '!x[$0]++ {print "https://helloextend.atlassian.net/browse/" $0}'
@@ -60,7 +69,8 @@ function pushAWS() {
     yarn install
     echo "Deploying to ${DEPLOY_ENV} with ${DEPLOY_REF}:"
     echo "Acquiring creds..."
-    cred-helper assume -e "${DEPLOY_ENV}"
+    # not using alias to allow this to be used in all contexts
+    yarn --silent --cwd "$EXTEND_CLI" run extend-cli aws creds assume -e "${DEPLOY_ENV}"
     echo "Running deploy..."
     yarn deploy --environment "${DEPLOY_ENV}" -v "${DEPLOY_REF}" --profile "${DEPLOY_ENV}" -r "${DEPLOY_STACKS}" --skip-git-check
 
@@ -163,7 +173,7 @@ function gread() {
 alias jirs='jira_status'
 alias a2r='add_to_release'
 alias cr='create_releases'
-alias ec="yarn --silent --cwd $EXTEND_CLI run extend-cli"
+alias ec='yarn --silent --cwd "$EXTEND_CLI" run extend-cli'
 
 # Testing
 
@@ -214,13 +224,18 @@ alias gref='git rev-parse --symbolic-full-name HEAD'
 alias gmc='git merge --continue'
 alias gpoh='git push origin HEAD'
 alias grh='git reset --hard'
+alias grhu='git reset --hard @{u}'
 alias grbc='git rebase --continue'
 alias grvc='git revert --continue'
 alias grp='git rev-parse'
 alias git-recent='git for-each-ref --sort=-committerdate refs/heads/'
 alias glo='git log --oneline'
 alias glob='git log --oneline $(git branch | tail -1)..HEAD'
-alias gun='git reset --hard HEAD~1' # git undo
+alias gun='git reset --hard HEAD~1'      # git undo
+alias glb='git branch | vsort | tail -1' # branch at last version
+alias gttr='tags-reset'                  # git tags reset
+alias gpot='git push origin --tags'
+alias gslnm='git shortlog --no-merges'
 
 function gmnr() {
     git merge -Srecursive -Xno-renames $1
@@ -232,6 +247,11 @@ function gco-conflicts() {
 
 function grm-del() {
     git rm $(git status | grep 'deleted by' | awk '{print $NF}') $1
+}
+
+function tags-reset() {
+    # reset local tags with remote ones
+    git tag -l | xargs git tag -d && git fetch -t
 }
 
 # Javascript

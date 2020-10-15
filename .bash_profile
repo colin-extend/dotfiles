@@ -1,3 +1,4 @@
+echo "loading profile"
 source ~/.profile
 source ~/.bash_aliases
 source ~/.untracked_vars
@@ -17,6 +18,7 @@ fi
 #.base_terminal - Shortcuts and Bash Utilities - https://github.com/ashoda/.base_terminal.git
 # source ~/.base_terminal/base.sh
 export PATH="$PATH:~/bin"
+export PATH="$PATH:~/work/go/bin"
 # ############################################
 
 # # Modified from emilis bash prompt script
@@ -136,6 +138,6 @@ export JIRA_CONFIG="$HOME/.jira-cli/config.json"
 
 export HUSKY_SKIP_HOOKS=1
 export CIRCLE_API_USER_TOKEN=$(cat ~/dev/secrets/circle_token)
-export EXTEND_CLI="~/.extend-cli"
+export EXTEND_CLI=~/.extend-cli
 
 source /Users/colin/.config/broot/launcher/bash/br
