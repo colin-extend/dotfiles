@@ -1,0 +1,49 @@
+export PATH="$PATH:~/bin"
+export PATH="$PATH:~/work/go/bin"
+export PATH="$PATH:/usr/local/sbin"
+# Setting PATH for Python 2.7
+# The orginal version is saved in .bash_profile.pysave
+
+##
+export PATH="/opt/local/bin:/opt/local/sbin:$PATH"
+# Finished adapting your PATH environment variable for use with MacPorts.
+export GOPATH=$HOME/work/go
+# Setting PATH for Python 3.5
+# The original version is saved in .bash_profile.pysave
+
+export PYTHON_FULL_VERSION=$(python --version | awk '{print $2}')
+export PYTHON_MINOR_VERSION=$(echo $PYTHON_FULL_VERSION | awk -F \. {'print $1"."$2'})
+export PATH="$HOME/Library/Python/$PYTHON_MINOR_VERSION/bin:$PATH"
+
+# MacPorts Installer addition on 2016-12-25_at_02:37:41: adding an appropriate PATH variable for use with MacPorts.
+export PATH="/opt/local/bin:/opt/local/sbin:$PATH"
+# Finished adapting your PATH environment variable for use with MacPorts.
+
+export NODE_PATH=$NODE_PATH:$(npm root -g)
+export PATH="$PATH:/Users/colin/.nvm/versions/node/"
+
+export PGUSER="ccahill"
+export JIRA_CONFIG="$HOME/.jira-cli/config.json"
+export HUSKY_SKIP_HOOKS=1
+export CIRCLE_API_USER_TOKEN=$(cat ~/dev/secrets/circle_token)
+export EDITOR=micro # micro instead of vim
+export EXTEND_CLI=~/.extend-cli
+
+if [[ $platform == 'Darwin' ]]; then
+
+    export PATH="$PATH:/usr/local/apache-maven-3.3.9/bin"
+    export JAVA_HOME=$(/usr/libexec/java_home)
+    . "/usr/local/opt/nvm/nvm.sh"
+
+fi
+
+export PATH="$HOME/.cargo/bin:$PATH"
+export DEV_ROOT="$HOME/dev"
+source "$DEV_ROOT/web-scripts/profile-scripts"
+export PATH="$PATH:$DEV_ROOT/web-scripts"
+export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
+export DOTIFLES_DIR=~/dev/dotfiles
+export LS_COLORS
+export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
+export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
+export AWS_CREDENTIALS=~/.aws/credentials

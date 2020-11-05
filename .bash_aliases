@@ -9,6 +9,51 @@ alias cursor="stty echo; tput cvvis;"
 alias dnsflush='sudo dscacheutil -flushcache'
 alias latest="ls -tr | tail -n 1"
 
+fd() { # find directory
+    local dir
+    dir=$(find ${1:-.} -type d 2>/dev/null | fzf +m) && cd "$dir"
+}
+
+# cat compspec
+g_proj_dir=$DEV_ROOT
+
+dev() {
+    cd $g_proj_dir/$1
+}
+
+_dev() {
+    local cmd=$1 cur=$2 pre=$3
+    local _cur compreply
+
+    _cur=$g_proj_dir/$cur
+    compreply=($(compgen -d "$_cur"))
+    COMPREPLY=(${compreply[@]#$g_proj_dir/})
+    if [[ ${#COMPREPLY[@]} -eq 1 ]]; then
+        COMPREPLY[0]=${COMPREPLY[0]}/
+    fi
+}
+
+# complete -F _dev -o nospace dev
+# # source ./compspec
+# #
+# # cd /tmp/
+# # mkdir -p projects/{bar,foo}{1,2}/mod{1,2}/submod{1,2}
+# # touch    projects/{bar,foo}{1,2}/mod{1,2}/submod{1,2}/file{1,2}
+# # dev <TAB><TAB>
+# bar1 bar2 foo1 foo2
+# # dev f<TAB>
+# # dev foo
+# # dev foo<TAB><TAB>
+# foo1 foo2
+# # dev foo2<TAB>
+# # dev foo2/
+# # dev foo2/<TAB>
+# # dev foo2/mod
+# # dev foo2/mod<TAB><TAB>
+# foo2/mod1 foo2/mod2
+# # dev foo2/mod2<TAB>
+# # dev foo2/mod2/
+
 ## System
 alias c='pbcopy && echo value copied to clipboard.'
 alias cwd='pwd | pbcopy'
@@ -41,24 +86,24 @@ function pushAWS() {
     DEFAULT_REF='refs/heads/master'
     DEFAULT_STACKS='authentication,extend-core,features,growth,incredibot,notifier,offers,shopify-integration,support,warmup,webhooks,contract-leads'
 
-    if [ -z "$1" ]; then                                 # Is parameter #1 zero length?
+    if [ -z "$1" ]; then                              # Is parameter #1 zero length?
         echo "Using default environment: ${DEFAULT_ENV}" # Or no parameter passed.
         DEPLOY_ENV=${DEFAULT_ENV}
-    elif [[ $1 =~ ^(dev|acceptance|stage|demo)$ ]]; then
+    elif [[ $1 =~ ^(dev|acceptance|stage|demo|.*sandbox)$ ]]; then
         DEPLOY_ENV=$1
     else
         echo "environment \"$1\" not recognized or allowed, exiting"
         return 1
     fi
 
-    if [ -z "$2" ]; then                         # Is parameter #2 zero length?
+    if [ -z "$2" ]; then                      # Is parameter #2 zero length?
         echo "Using default ref: ${DEFAULT_REF}" # Or no parameter passed.
         DEPLOY_REF=${DEFAULT_REF}
     else
         DEPLOY_REF=$2
     fi
 
-    if [ -z "$3" ]; then                               # Is parameter #3 zero length?
+    if [ -z "$3" ]; then                            # Is parameter #3 zero length?
         echo "Using default stacks: ${DEFAULT_STACKS}" # Or no parameter passed.
         DEPLOY_STACKS=${DEFAULT_STACKS}
     else
@@ -119,6 +164,7 @@ function add_to_release() {
 }
 
 ## Text or String Commands
+alias g='grep'
 function commit() {
     grep -Eoi '\b[0-9a-f]{5,40}\b' | head -1
 }
@@ -173,7 +219,9 @@ function gread() {
 alias jirs='jira_status'
 alias a2r='add_to_release'
 alias cr='create_releases'
-alias ec='yarn --silent --cwd "$EXTEND_CLI" run extend-cli'
+function ec() {
+    yarn --silent --cwd "/Users/colin/.extend-cli" run extend-cli $1 $2 $3 $4
+}
 
 # Testing
 
@@ -207,6 +255,7 @@ alias pip='pip3'
 alias commits='git log --graph --all --oneline --decorate'
 alias branches='git for-each-ref --sort=-committerdate refs/heads/'
 alias fetch='git fetch --all -p' # prunes dead remote branches
+alias gaa='git add --all'
 alias gb='git rev-parse --abbrev-ref HEAD'
 alias gc='git commit'
 alias gco='git checkout'
@@ -230,10 +279,12 @@ alias grvc='git revert --continue'
 alias grp='git rev-parse'
 alias git-recent='git for-each-ref --sort=-committerdate refs/heads/'
 alias glo='git log --oneline'
+alias glonm='git log --oneline --no-merges'
 alias glob='git log --oneline $(git branch | tail -1)..HEAD'
 alias gun='git reset --hard HEAD~1'      # git undo
 alias glb='git branch | vsort | tail -1' # branch at last version
 alias gttr='tags-reset'                  # git tags reset
+alias gtr='git ls-remote --tags origin'  # git tags remote
 alias gpot='git push origin --tags'
 alias gslnm='git shortlog --no-merges'
 
@@ -263,6 +314,9 @@ alias yyt='yarn && yarn typecheck && yarn lint --quiet'
 # App-specific
 alias mi='micro'
 alias ssubl='for f in /Users/colin/Library/Application\ Support/Sublime\ Text\ 3/Local/*session; do mv "$f" "$(echo "$f".previous)"; done && subl'
+
+## Debugging
+alias reset_audio="sudo killall -9 AudioComponentRegistrar && sudo killall -9 coreaudiod"
 
 ## Special
 alias spoof='spoof-mac randomize --wifi' # https://github.com/feross/SpoofMAC

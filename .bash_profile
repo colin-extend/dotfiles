@@ -1,4 +1,5 @@
 echo "loading profile"
+source ~/.bash_var_exports
 source ~/.profile
 source ~/.bash_aliases
 source ~/.untracked_vars
@@ -17,8 +18,7 @@ fi
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
 #.base_terminal - Shortcuts and Bash Utilities - https://github.com/ashoda/.base_terminal.git
 # source ~/.base_terminal/base.sh
-export PATH="$PATH:~/bin"
-export PATH="$PATH:~/work/go/bin"
+
 # ############################################
 
 # # Modified from emilis bash prompt script
@@ -98,46 +98,11 @@ export PATH="$PATH:~/work/go/bin"
 
 ##
 # Finished adapting your PATH environment variable for use with MacPorts.
-export PATH="$PATH:/usr/local/sbin"
-# Setting PATH for Python 2.7
-# The orginal version is saved in .bash_profile.pysave
 
-##
-export PATH="/opt/local/bin:/opt/local/sbin:$PATH"
-# Finished adapting your PATH environment variable for use with MacPorts.
-export GOPATH=$HOME/work/go
-# Setting PATH for Python 3.5
-# The original version is saved in .bash_profile.pysave
-
-export PYTHON_FULL_VERSION=$(python --version | awk '{print $2}')
-export PYTHON_MINOR_VERSION=$(echo $PYTHON_FULL_VERSION | awk -F \. {'print $1"."$2'})
-export PATH="$HOME/Library/Python/$PYTHON_MINOR_VERSION/bin:$PATH"
-
-# MacPorts Installer addition on 2016-12-25_at_02:37:41: adding an appropriate PATH variable for use with MacPorts.
-export PATH="/opt/local/bin:/opt/local/sbin:$PATH"
-# Finished adapting your PATH environment variable for use with MacPorts.
-
-export NODE_PATH=$NODE_PATH:$(npm root -g)
-export PATH="$PATH:/Users/colin/.nvm/versions/node/"
-
-export PGUSER="ccahill"
 eval $(thefuck --alias)
 
-if [[ $platform == 'Darwin' ]]; then
-
-    export PATH="$PATH:/usr/local/apache-maven-3.3.9/bin"
-    export JAVA_HOME=$(/usr/libexec/java_home)
-    . "/usr/local/opt/nvm/nvm.sh"
-
-fi
-
-[[ -s "$HOME/.avn/bin/avn.sh" ]] && source "$HOME/.avn/bin/avn.sh" # load avn
-
-export JIRA_CONFIG="$HOME/.jira-cli/config.json"
+[[ -s "$HOME/.avn/bin/avn.sh" ]] && source "$HOME/.avn/bin/avn.sh"               # load avn
 [[ -s "$HOME/.extend/environment.sh" ]] && source "$HOME/.extend/environment.sh" # source extend environment
-
-export HUSKY_SKIP_HOOKS=1
-export CIRCLE_API_USER_TOKEN=$(cat ~/dev/secrets/circle_token)
-export EXTEND_CLI=~/.extend-cli
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"             # Load RVM into a shell session *as a function*
 
 source /Users/colin/.config/broot/launcher/bash/br

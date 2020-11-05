@@ -4,7 +4,6 @@ source ~/.git-completion.bash
 
 # eval "$(direnv hook bash)"
 
-DOTIFLES_DIR=$(pwd)
 GIT_PS1_SHOWDIRTYSTATE=true
 GIT_PS1_SHOWUNTRACKEDFILES=true
 GIT_PS1_SHOWCOLORHINTS=true
@@ -12,11 +11,11 @@ PROMPT_COMMAND='__git_ps1 "\033[1;33m-------------------------------------------
 
 alias l='ls --color'
 LS_COLORS='di=1:fi=0:ln=31:pi=5:so=5:bd=5:cd=5:or=31:mi=0:ex=35:*.rpm=90'
-export LS_COLORS
 
-export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
+# this lets you enter a partial command and pull up matching instances in bash history
+bind '"\e[A":history-search-backward'
+bind '"\e[B":history-search-forward'
 
-export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"                   # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion" # This loads nvm bash_completion
 
@@ -78,7 +77,5 @@ cd $(pwd)
 if [[ -f "$HOME/.shopify-app-cli/shopify.sh" ]] && [[ hB == *i* ]]; then
     source "$HOME/.shopify-app-cli/shopify.sh"
 fi
-
-export AWS_CREDENTIALS=~/.aws/credentials
 
 source /Users/colin/.config/broot/launcher/bash/br
