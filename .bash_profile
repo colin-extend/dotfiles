@@ -4,15 +4,16 @@ source ~/.profile
 source ~/.bash_aliases
 source ~/.untracked_vars
 source ~/.bashrc
+source "~/dev/wikipedia2text/wikipedia2text"
 
 ssh-agent
 
 platform='unknown'
 unamestr=$(uname)
 if [[ $unamestr == 'Linux' ]]; then
-    platform='linux'
+	platform='linux'
 elif [[ $unamestr == 'Darwin' ]]; then
-    platform='mac'
+	platform='mac'
 fi
 
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
