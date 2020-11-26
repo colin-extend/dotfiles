@@ -165,6 +165,8 @@ function add_to_release() {
 
 ## Text or String Commands
 alias g='grep'
+alias rz='renderizer'
+
 function commit() {
     grep -Eoi '\b[0-9a-f]{5,40}\b' | head -1
 }
