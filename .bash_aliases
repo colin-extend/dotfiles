@@ -1,4 +1,5 @@
 echo "loading aliases"
+
 # Bash-specific
 ## Navigation
 alias l='ls -alh'
@@ -61,7 +62,53 @@ function vsort() {
     sort -bt. -k1,1 -k2,2n -k3,3n -k4,4n -k5,5n
 }
 
-## Functions
+## Deployments
+function last_release_file() {
+    echo "$DEV_ROOT/scripts/deploy/last_release"
+}
+
+function rc_prs_file() {
+    echo "$DEV_ROOT/scripts/deploy/rc_prs"
+}
+
+### Increments the part of the string
+## $1: version itself
+## $2: number of part: 0 – major, 1 – minor, 2 – patch
+increment_version() {
+    local delimiter=.
+    local array=($(echo "$1" | tr $delimiter '\n'))
+    array[$2]=$((array[$2] + 1))
+    echo $(
+        local IFS=$delimiter
+        echo "${array[*]}"
+    )
+}
+
+alias last_release_version='cat $(last_release_file)'
+
+function new_release_version() {
+    git branch | egrep -e '(release/v[0-9].[0-9]{3}.0)$' | vsort | tail -1
+}
+
+parse_version() {
+    egrep -Eo '([0-9].\d{1,3}.[0-9])'
+}
+
+function update_last_release() {
+    echo $(new_release_version) >$(last_release_file)
+}
+
+function update_rc_prs() {
+    echo -e "\n$(git log --pretty=format:'%h|%ad|%an|%s' $(last_release_version)..HEAD | column -t -s '|')" >$(rc_prs_file)
+}
+
+alias jirs='jira_status'
+alias a2r='add_to_release'
+alias lr='last_release_version'
+alias cr='create_releases'
+alias next_rc='git log --oneline $(last_release_version)..HEAD'
+alias s2stacks='cat $DEV_ROOT/scripts/deploy/sdlc2'
+
 # See which tickets aren't done yet
 function nr() {
     grep -iv 'Done'
@@ -84,7 +131,7 @@ function get_column_two() { awk '{print $2}'; }
 function pushAWS() {
     DEFAULT_ENV='acceptance'
     DEFAULT_REF='refs/heads/master'
-    DEFAULT_STACKS='authentication,extend-core,features,growth,incredibot,notifier,offers,shopify-integration,support,warmup,webhooks,contract-leads'
+    DEFAULT_STACKS='extend-core,features,growth,incredibot,notifier,offers,shopify-integration,support,webhooks,contract-leads'
 
     if [ -z "$1" ]; then                              # Is parameter #1 zero length?
         echo "Using default environment: ${DEFAULT_ENV}" # Or no parameter passed.
@@ -217,14 +264,6 @@ function gread() {
     tail -f -n 0 $1 | grep -i --line-buffered "$G" | while read line; do echo $line | say -v $S; done
 }
 
-# Local
-alias jirs='jira_status'
-alias a2r='add_to_release'
-alias cr='create_releases'
-function ec() {
-    yarn --silent --cwd "/Users/colin/.extend-cli" run extend-cli $1 $2 $3 $4
-}
-
 # Testing
 
 alias cas='casperjs test --ignore-ssl-errors=yes'
@@ -275,18 +314,20 @@ alias gref='git rev-parse --symbolic-full-name HEAD'
 alias gmc='git merge --continue'
 alias gpoh='git push origin HEAD'
 alias grh='git reset --hard'
-alias grhu='git reset --hard @{u}'
+alias grho='fetch && git reset --hard origin/$(gb)'
 alias grbc='git rebase --continue'
 alias grvc='git revert --continue'
 alias grp='git rev-parse'
 alias git-recent='git for-each-ref --sort=-committerdate refs/heads/'
 alias glo='git log --oneline'
+alias glp="git log --pretty=format:'%h | %ad | %an | %s' | column -t -s ' | '"
 alias glonm='git log --oneline --no-merges'
 alias glob='git log --oneline $(git branch | tail -1)..HEAD'
 alias gun='git reset --hard HEAD~1'      # git undo
 alias glb='git branch | vsort | tail -1' # branch at last version
 alias gttr='tags-reset'                  # git tags reset
-alias gtr='git ls-remote --tags origin'  # git tags remote
+alias gpdo='git push --delete origin'
+alias gtr='git ls-remote --tags origin' # git tags remote
 alias gpot='git push origin --tags'
 alias gslnm='git shortlog --no-merges'
 
@@ -312,6 +353,11 @@ alias node="env NODE_NO_READLINE=1 rlwrap node"
 alias ni='node inspect'
 alias nd='node debug'
 alias yyt='yarn && yarn typecheck && yarn lint --quiet'
+
+# Local
+function ec() {
+    yarn --silent --cwd "/Users/colin/.extend-cli" run extend-cli $1 $2 $3 $4 $5 $6 $7
+}
 
 # App-specific
 alias mi='micro'
