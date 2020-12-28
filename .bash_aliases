@@ -63,12 +63,18 @@ function vsort() {
 }
 
 ## Deployments
+alias pushAWS="$DEV_ROOT/dotfiles/scripts/deploy/pushAWS.sh"
+
 function last_release_file() {
     echo "$DEV_ROOT/scripts/deploy/last_release"
 }
 
 function rc_prs_file() {
     echo "$DEV_ROOT/scripts/deploy/rc_prs"
+}
+
+function carryover_prs_file() {
+    echo "$DEV_ROOT/scripts/deploy/carryover_prs"
 }
 
 ### Increments the part of the string
@@ -87,7 +93,7 @@ increment_version() {
 alias last_release_version='cat $(last_release_file)'
 
 function new_release_version() {
-    git branch | egrep -e '(release/v[0-9].[0-9]{3}.0)$' | vsort | tail -1
+    git branch | grep -Eo '(release/v[0-9].[0-9]{3}.[0-9])$' | tail -1
 }
 
 parse_version() {
@@ -95,18 +101,22 @@ parse_version() {
 }
 
 function update_last_release() {
-    echo $(new_release_version) >$(last_release_file)
+    echo "$(new_release_version)" >$(last_release_file)
 }
 
 function update_rc_prs() {
-    echo -e "\n$(git log --pretty=format:'%h|%ad|%an|%s' $(last_release_version)..HEAD | column -t -s '|')" >$(rc_prs_file)
+    echo -e "\n$(glop $(last_release_version)..HEAD)" >$(rc_prs_file)
+}
+
+function carryover_prs() {
+    echo -e "\n$(git log --pretty=format:'%h|%ad|%an|%s' HEAD..$(last_release_version) | column -t -s '|')" >$(carryover_prs_file)
 }
 
 alias jirs='jira_status'
 alias a2r='add_to_release'
 alias lr='last_release_version'
 alias cr='create_releases'
-alias next_rc='git log --oneline $(last_release_version)..HEAD'
+alias next_rc='glop $(last_release_version)..HEAD'
 alias s2stacks='cat $DEV_ROOT/scripts/deploy/sdlc2'
 
 # See which tickets aren't done yet
@@ -127,50 +137,6 @@ function tix() {
 # prints 2nd column
 function get_column_two() { awk '{print $2}'; }
 
-# pushes commit to env or uses defaults
-function pushAWS() {
-    DEFAULT_ENV='acceptance'
-    DEFAULT_REF='refs/heads/master'
-    DEFAULT_STACKS='extend-core,features,growth,incredibot,notifier,offers,shopify-integration,support,webhooks,contract-leads'
-
-    if [ -z "$1" ]; then                              # Is parameter #1 zero length?
-        echo "Using default environment: ${DEFAULT_ENV}" # Or no parameter passed.
-        DEPLOY_ENV=${DEFAULT_ENV}
-    elif [[ $1 =~ ^(dev|acceptance|stage|demo|.*sandbox)$ ]]; then
-        DEPLOY_ENV=$1
-    else
-        echo "environment \"$1\" not recognized or allowed, exiting"
-        return 1
-    fi
-
-    if [ -z "$2" ]; then                      # Is parameter #2 zero length?
-        echo "Using default ref: ${DEFAULT_REF}" # Or no parameter passed.
-        DEPLOY_REF=${DEFAULT_REF}
-    else
-        DEPLOY_REF=$2
-    fi
-
-    if [ -z "$3" ]; then                            # Is parameter #3 zero length?
-        echo "Using default stacks: ${DEFAULT_STACKS}" # Or no parameter passed.
-        DEPLOY_STACKS=${DEFAULT_STACKS}
-    else
-        DEPLOY_STACKS=$3
-    fi
-
-    echo "Running yarn install..."
-    yarn install
-    echo "Deploying to ${DEPLOY_ENV} with ${DEPLOY_REF}:"
-    echo "Acquiring creds..."
-    # not using alias to allow this to be used in all contexts
-    yarn --silent --cwd "$EXTEND_CLI" run extend-cli aws creds assume -e "${DEPLOY_ENV}"
-    echo "Running deploy..."
-    yarn deploy --environment "${DEPLOY_ENV}" -v "${DEPLOY_REF}" --profile "${DEPLOY_ENV}" -r "${DEPLOY_STACKS}" --skip-git-check
-
-    if [ $? -ne 0 ]; then
-        echo "Error"
-    fi
-}
-
 function open_tix() {
     while read -r line; do jira open "$line"; done
 }
@@ -178,8 +144,8 @@ function open_tix() {
 function jira_status() {
     while read -r line; do
         status=$(jira show -o status $line)
-        status_count=$(echo "${status}" | wc -m)
-        filtered_status=$(if [[ $status_count < 50 ]]; then echo "$status"; else echo "Error: msg length ${status_count}"; fi)
+        status_count=$(printf "${status}" | wc -m | tail -1)
+        filtered_status=$(if (($status_count < 20)); then echo "$status"; else echo "Error: msg length equals $status_count.  Manually verify."; fi)
         echo "$line: $filtered_status"
     done
 }
@@ -320,7 +286,7 @@ alias grvc='git revert --continue'
 alias grp='git rev-parse'
 alias git-recent='git for-each-ref --sort=-committerdate refs/heads/'
 alias glo='git log --oneline'
-alias glp="git log --pretty=format:'%h | %ad | %an | %s' | column -t -s ' | '"
+alias glp="git log --pretty=format:'%h %ad %an %s'"
 alias glonm='git log --oneline --no-merges'
 alias glob='git log --oneline $(git branch | tail -1)..HEAD'
 alias gun='git reset --hard HEAD~1'      # git undo
@@ -330,6 +296,10 @@ alias gpdo='git push --delete origin'
 alias gtr='git ls-remote --tags origin' # git tags remote
 alias gpot='git push origin --tags'
 alias gslnm='git shortlog --no-merges'
+
+function glop() {
+    git log --pretty=format:'%h|%ad|%an|%s' $1 | column -t -s '|'
+}
 
 function gmnr() {
     git merge -Srecursive -Xno-renames $1
