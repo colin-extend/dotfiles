@@ -16,7 +16,6 @@ elif [[ $unamestr == 'Darwin' ]]; then
 	platform='mac'
 fi
 
-[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
 #.base_terminal - Shortcuts and Bash Utilities - https://github.com/ashoda/.base_terminal.git
 # source ~/.base_terminal/base.sh
 
@@ -104,6 +103,6 @@ eval $(thefuck --alias)
 
 [[ -s "$HOME/.avn/bin/avn.sh" ]] && source "$HOME/.avn/bin/avn.sh"               # load avn
 [[ -s "$HOME/.extend/environment.sh" ]] && source "$HOME/.extend/environment.sh" # source extend environment
-[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"             # Load RVM into a shell session *as a function*
+# [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"             # Load RVM into a shell session *as a function*
 
 source /Users/colin/.config/broot/launcher/bash/br

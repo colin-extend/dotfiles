@@ -63,7 +63,7 @@ function vsort() {
 }
 
 ## Deployments
-alias pushAWS="$DEV_ROOT/dotfiles/scripts/deploy/pushAWS.sh"
+alias pushAWS="$DEV_ROOT/scripts/dotfiles/deploy/pushAWS.sh"
 
 function last_release_file() {
     echo "$DEV_ROOT/scripts/deploy/last_release"
@@ -108,8 +108,8 @@ function update_rc_prs() {
     echo -e "\n$(glop $(last_release_version)..HEAD)" >$(rc_prs_file)
 }
 
-function carryover_prs() {
-    echo -e "\n$(git log --pretty=format:'%h|%ad|%an|%s' HEAD..$(last_release_version) | column -t -s '|')" >$(carryover_prs_file)
+function create_carryover_prs() {
+    echo -e "\n$(git log --pretty=format:'%h|%ad|%an|%s' origin/master..$(new_release_version) | column -t -s '|')" >$(carryover_prs_file)
 }
 
 alias jirs='jira_status'

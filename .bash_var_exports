@@ -44,6 +44,5 @@ export PATH="$PATH:$DEV_ROOT/web-scripts"
 export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
 export DOTIFLES_DIR=~/dev/dotfiles
 export LS_COLORS
-export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
 export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
 export AWS_CREDENTIALS=~/.aws/credentials

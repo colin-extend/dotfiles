@@ -1,6 +1,8 @@
 #!/bin/bash
 
 # pushes commit to env or uses defaults
+bold=$(tput bold)
+normal=$(tput sgr0)
 
 DEPLOY_ENV=
 DEPLOY_REF=
@@ -11,11 +13,10 @@ DEFAULT_STACKS='extend-core,features,growth,incredibot,notifier,offers,shopify-i
 
 OPTIND=1 # Reset in case getopts has been used previously in the shell.
 
-while getopts "e:r:s:" options; do
-    case "$options" in
+while getopts "e:r:s:" option; do
+    case "$option" in
     e)
         DEPLOY_ENV=${OPTARG}
-        echo "${DEPLOY_ENV}"
         if [[ ! $DEPLOY_ENV =~ ^(dev|acceptance|stage|demo|.*sandbox)$ ]]; then
             echo "environment \"$OPTARG\" not recognized or allowed, exiting"
             exit 1
@@ -35,8 +36,9 @@ while getopts "e:r:s:" options; do
             echo "Using default stacks: ${DEFAULT_STACKS}" # Or no parameter passed.
         fi
         ;;
-    *)
-        echo "Invalid option: -$OPTARG" >&2
+    ?)
+        echo "Invalid option: -$option exiting" >&2
+        exit 1
         ;;
     esac
 done
@@ -47,7 +49,7 @@ shift $((OPTIND - 1))
 
 echo "Running yarn install..."
 yarn install
-echo "Deploying to ${DEPLOY_ENV:=$DEFAULT_ENV} with stacks ${DEPLOY_STACKS:=$DEFAULT_STACKS} at ${DEPLOY_REF:=$DEFAULT_REF}:"
+echo "Deploying to ${bold}${DEPLOY_ENV:=$DEFAULT_ENV}${normal} with stacks ${bold}${DEPLOY_STACKS:=$DEFAULT_STACKS}${normal} at ref ${bold}${DEPLOY_REF:=$DEFAULT_REF}${normal}"
 echo "Acquiring creds..."
 # not using alias to allow this to be used in all contexts
 yarn --silent --cwd "$EXTEND_CLI" run extend-cli aws creds assume -e "${DEPLOY_ENV}"
