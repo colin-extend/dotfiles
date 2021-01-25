@@ -63,7 +63,7 @@ function vsort() {
 }
 
 ## Deployments
-alias pushAWS="$DEV_ROOT/scripts/dotfiles/deploy/pushAWS.sh"
+alias pushAWS="$DEV_ROOT/dotfiles/scripts/deploy/pushAWS.sh"
 
 function last_release_file() {
     echo "$DEV_ROOT/scripts/deploy/last_release"
@@ -108,8 +108,12 @@ function update_rc_prs() {
     echo -e "\n$(glop $(last_release_version)..HEAD)" >$(rc_prs_file)
 }
 
+function carryover_prs() {
+    cat $(carryover_prs_file)
+}
+
 function create_carryover_prs() {
-    echo -e "\n$(git log --pretty=format:'%h|%ad|%an|%s' origin/master..$(new_release_version) | column -t -s '|')" >$(carryover_prs_file)
+    echo -e "\n$(glop origin/master..$(new_release_version))" >$(carryover_prs_file)
 }
 
 alias jirs='jira_status'
@@ -286,19 +290,19 @@ alias grvc='git revert --continue'
 alias grp='git rev-parse'
 alias git-recent='git for-each-ref --sort=-committerdate refs/heads/'
 alias glo='git log --oneline'
-alias glp="git log --pretty=format:'%h %ad %an %s'"
 alias glonm='git log --oneline --no-merges'
 alias glob='git log --oneline $(git branch | tail -1)..HEAD'
-alias gun='git reset --hard HEAD~1'      # git undo
-alias glb='git branch | vsort | tail -1' # branch at last version
-alias gttr='tags-reset'                  # git tags reset
+alias gun='git reset --hard HEAD~1'                       # git undo
+alias glb='git branch | vsort | tail -1'                  # last branch
+alias glv='git branch | grep 'release' | vsort | tail -1' # branch at last version
+alias gttr='tags-reset'                                   # git tags reset
 alias gpdo='git push --delete origin'
 alias gtr='git ls-remote --tags origin' # git tags remote
 alias gpot='git push origin --tags'
 alias gslnm='git shortlog --no-merges'
 
 function glop() {
-    git log --pretty=format:'%h|%ad|%an|%s' $1 | column -t -s '|'
+    git log --pretty=format:'%<(12)%h %>(30)%ad %><(25)%an %<(20)%s' $1 $2 $3 $4 $5 $6 $7 $8
 }
 
 function gmnr() {

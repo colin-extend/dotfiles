@@ -1,4 +1,6 @@
 #!/bin/bash
+cd "$DEV_ROOT"/node-core
+echo "Hi there."
 
 # pushes commit to env or uses defaults
 bold=$(tput bold)
@@ -9,7 +11,7 @@ DEPLOY_REF=
 DEPLOY_STACKS=
 DEFAULT_ENV='acceptance'
 DEFAULT_REF='refs/heads/master'
-DEFAULT_STACKS='extend-core,features,growth,incredibot,notifier,offers,shopify-integration,support,webhooks,contract-leads'
+DEFAULT_STACKS='extend-core,contracts,features,growth,incredibot,notifier,offers,shopify-integration,support,webhooks,contract-leads'
 
 OPTIND=1 # Reset in case getopts has been used previously in the shell.
 
@@ -51,11 +53,13 @@ echo "Running yarn install..."
 yarn install
 echo "Deploying to ${bold}${DEPLOY_ENV:=$DEFAULT_ENV}${normal} with stacks ${bold}${DEPLOY_STACKS:=$DEFAULT_STACKS}${normal} at ref ${bold}${DEPLOY_REF:=$DEFAULT_REF}${normal}"
 echo "Acquiring creds..."
+
 # not using alias to allow this to be used in all contexts
-yarn --silent --cwd "$EXTEND_CLI" run extend-cli aws creds assume -e "${DEPLOY_ENV}"
+~/dev/scripts/creds_login.sh && yarn --silent --cwd "$EXTEND_CLI" run extend-cli aws creds assume -e "${DEPLOY_ENV}"
 echo "Running deploy..."
 yarn deploy --environment "${DEPLOY_ENV:=$DEFAULT_ENV}" -v "${DEPLOY_REF:=$DEFAULT_REF}" --profile "${DEPLOY_ENV-$DEPLOY_ENV}" -r "${DEPLOY_STACKS:=$DEFAULT_STACKS}" --skip-git-check
 
 if [ $? -ne 0 ]; then
     echo "An error occurred"
+    say -v Moira "Deploy error"
 fi
